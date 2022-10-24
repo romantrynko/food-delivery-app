@@ -1,9 +1,11 @@
-import React from 'react';
-import Logo from '../img/logo.png';
 import Avatar from '../img/avatar.png';
-import { MdShoppingCart } from 'react-icons/md';
-import { motion } from 'framer-motion';
+import Logo from '../img/logo.png';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { MdShoppingCart } from 'react-icons/md';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { motion } from 'framer-motion';
+import { app } from '../firebase.config';
 
 const links = [
   { name: 'Home', href: '/' },
@@ -13,11 +15,36 @@ const links = [
 ];
 
 const Header = () => {
+  const firebaseAuth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  const login = async () => {
+    const response = await signInWithPopup(firebaseAuth, provider);
+    console.log(response);
+    
+    // signInWithPopup(auth, provider)
+    //   .then((result) => {
+    //     const credential = GoogleAuthProvider.credentialFromResult(result);
+    //     const token = credential.accessToken;
+    //     const user = result.user;
+
+    //   })
+    //   .catch((error) => {
+    //     const errorCode = error.code;
+    //     const errorMessage = error.message;
+    //     const email = error.customData.email;
+    //     const credential = GoogleAuthProvider.credentialFromError(error);
+
+    //   });
+  };
+
   return (
     <header className="fixed z-50 w-screen py-6 px-16">
       {/* desktop & tablet */}
       <div className="hidden md:flex w-full h-full item-center justify-between">
-        <Link to='/' className="flex items-center gap-2">
+        <Link
+          to="/"
+          className="flex items-center gap-2">
           <img
             src={Logo}
             alt="logo"
@@ -44,12 +71,15 @@ const Header = () => {
             </div>
           </div>
 
-          <motion.img
-            whileTap={{scale: 0.8}}
-            className="w-10 shadow-md rounded-full cursor-pointer"
-            src={Avatar}
-            alt="user"
-          />
+          <div className="relative">
+            <motion.img
+              whileTap={{ scale: 0.8 }}
+              className="w-10 shadow-md rounded-full cursor-pointer"
+              src={Avatar}
+              alt="user"
+              onClick={login}
+            />
+          </div>
         </div>
       </div>
 
