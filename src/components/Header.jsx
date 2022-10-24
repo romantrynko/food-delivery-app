@@ -3,9 +3,11 @@ import Logo from '../img/logo.png';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MdShoppingCart } from 'react-icons/md';
+import { actionType } from '../context/reducer';
+import { app } from '../firebase.config';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { motion } from 'framer-motion';
-import { app } from '../firebase.config';
+import { useStateValue } from '../context/StateProvider';
 
 const links = [
   { name: 'Home', href: '/' },
@@ -18,24 +20,22 @@ const Header = () => {
   const firebaseAuth = getAuth(app);
   const provider = new GoogleAuthProvider();
 
+  const [{ user }, dispatch] = useStateValue();
+
   const login = async () => {
-    const response = await signInWithPopup(firebaseAuth, provider);
-    console.log(response);
-    
-    // signInWithPopup(auth, provider)
-    //   .then((result) => {
-    //     const credential = GoogleAuthProvider.credentialFromResult(result);
-    //     const token = credential.accessToken;
-    //     const user = result.user;
+    if (!user) {
+      const {
+        user: { refreshToken, providerData }
+      } = await signInWithPopup(firebaseAuth, provider);
 
-    //   })
-    //   .catch((error) => {
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //     const email = error.customData.email;
-    //     const credential = GoogleAuthProvider.credentialFromError(error);
+      dispatch({
+        type: actionType.SET_USER,
+        user: providerData[0]
+      });
 
-    //   });
+      localStorage.setItem('user', JSON.stringify(providerData[0]));
+    } else {
+    }
   };
 
   return (
@@ -75,10 +75,14 @@ const Header = () => {
             <motion.img
               whileTap={{ scale: 0.8 }}
               className="w-10 shadow-md rounded-full cursor-pointer"
-              src={Avatar}
+              src={user ? user.photoURL : Avatar}
               alt="user"
               onClick={login}
             />
+            <div className="flex flex-col w-40 bg-gray-50 shadow-xl rounded-lg absolute top-12 right-0 px-4 py-2">
+              <p>New Item</p>
+              <p>Logout</p>
+            </div>
           </div>
         </div>
       </div>
