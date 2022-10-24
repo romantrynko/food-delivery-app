@@ -2,7 +2,7 @@ import Avatar from '../img/avatar.png';
 import Logo from '../img/logo.png';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MdShoppingCart } from 'react-icons/md';
+import { MdShoppingCart, MdAdd, MdLogout } from 'react-icons/md';
 import { actionType } from '../context/reducer';
 import { app } from '../firebase.config';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
@@ -79,9 +79,18 @@ const Header = () => {
               alt="user"
               onClick={login}
             />
-            <div className="flex flex-col w-40 bg-gray-50 shadow-xl rounded-lg absolute top-12 right-0 px-4 py-2">
-              <p>New Item</p>
-              <p>Logout</p>
+            <div className="flex flex-col w-40 bg-gray-50 shadow-xl rounded-lg absolute top-12 right-0">
+              {user && (
+                <Link to='/create-item'>
+                  <p className="user-menu hover:rounded-t-lg">
+                    New Item
+                    <MdAdd />
+                  </p>
+                </Link>
+              )}
+              <p className="user-menu hover:rounded-b-lg">
+                Logout <MdLogout />
+              </p>
             </div>
           </div>
         </div>

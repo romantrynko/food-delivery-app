@@ -16,7 +16,7 @@ const App = () => {
               element={<MainContainer />}
             />
             <Route
-              path="/createItem"
+              path="/create-item"
               element={<CreateContainer />}
             />
           </Routes>

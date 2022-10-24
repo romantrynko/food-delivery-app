@@ -22,3 +22,7 @@ body {
 .header-link {
   @apply text-base text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out
 }
+
+.user-menu {
+  @apply px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-200 transition-all duration-100 ease-in-out text-textColor text-base
+}
