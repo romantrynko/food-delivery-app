@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { MdAdd, MdLogout, MdShoppingCart } from 'react-icons/md';
 
-const HeaderDesktop = ({ Logo, links, user, Avatar, login, menu }) => {
+const HeaderDesktop = ({ Logo, links, user, Avatar, login, menu, logout }) => {
   return (
     <>
       <Link
@@ -54,14 +54,16 @@ const HeaderDesktop = ({ Logo, links, user, Avatar, login, menu }) => {
               exit={{ opacity: 0, scale: 0.6 }}
               className="flex flex-col w-40 bg-gray-50 shadow-xl rounded-lg absolute top-12 right-0">
               {user && (
-                    <Link to="/create-item">
-                      <p className="user-menu hover:rounded-t-lg">
-                        New Item
-                        <MdAdd />
-                      </p>
-                    </Link>
-                  )}
-              <p className="user-menu hover:rounded-b-lg">
+                <Link to="/create-item">
+                  <p className="user-menu hover:rounded-t-lg">
+                    New Item
+                    <MdAdd />
+                  </p>
+                </Link>
+              )}
+              <p
+                onClick={logout}
+                className="user-menu hover:rounded-b-lg">
                 Logout <MdLogout />
               </p>
             </motion.div>

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { MdAdd, MdLogout } from 'react-icons/md';
 
-const HeaderMobile = ({ Logo, user, Avatar, login, menu, links }) => {
+const HeaderMobile = ({ Logo, user, Avatar, login, menu, links, logout }) => {
   return (
     <>
       <Link
@@ -20,7 +20,7 @@ const HeaderMobile = ({ Logo, user, Avatar, login, menu, links }) => {
       <div className="relative">
         <motion.img
           whileTap={{ scale: 0.9 }}
-          className="w-10 shadow-md rounded-full cursor-pointer"
+          className="w-12 shadow-md rounded-full cursor-pointer"
           src={user ? user.photoURL : Avatar}
           alt="user"
           onClick={login}
@@ -40,17 +40,19 @@ const HeaderMobile = ({ Logo, user, Avatar, login, menu, links }) => {
               </Link>
             )}
 
-            <ul className="flex flex-col px-4 gap-2">
+            <ul className="flex flex-col">
               {links.map((link) => (
                 <li
                   key={link.name}
-                  className="header-link">
+                  className="header-link user-menu">
                   {link.name}
                 </li>
               ))}
             </ul>
 
-            <p className="user-menu hover:rounded-b-lg">
+            <p
+              onClick={logout}
+              className="user-menu rounded-lg hover:rounded-lg hover:bg-gray-400 justify-center bg-gray-200 m-2">
               Logout <MdLogout />
             </p>
           </motion.div>
